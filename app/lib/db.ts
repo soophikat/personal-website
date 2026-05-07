@@ -28,7 +28,7 @@ db.exec(`
 
     CREATE TABLE IF NOT EXISTS tags (
         id      INTEGER PRIMARY KEY AUTOINCREMENT,
-        tag     TEXT UNIQUE NOT NULL     
+        name    TEXT UNIQUE NOT NULL     
     );
 
     CREATE TABLE IF NOT EXISTS post_tags (
