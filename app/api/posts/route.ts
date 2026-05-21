@@ -2,19 +2,24 @@ import db from '@/app/lib/db';
 import z from 'zod';
 
 export async function GET() {
-    const posts = db.prepare(`
-        SELECT posts.*, GROUP_CONCAT(tags.name) as tags FROM posts
-        LEFT JOIN post_tags ON posts.id = post_tags.post_id
-        LEFT JOIN tags ON post_tags.tag_id = tags.id
-        GROUP BY posts.id
-        `).all();
-
-    return Response.json({
-        posts: posts.map((post: any) => ({
-            ...post,
-            tags: post.tags ? post.tags.split(",") : []
-        }))
-    });
+    try {
+        const posts = db.prepare(`
+            SELECT posts.*, GROUP_CONCAT(tags.name) as tags FROM posts
+            LEFT JOIN post_tags ON posts.id = post_tags.post_id
+            LEFT JOIN tags ON post_tags.tag_id = tags.id
+            GROUP BY posts.id
+            `).all();
+    
+        return Response.json({
+            posts: posts.map((post: any) => ({
+                ...post,
+                tags: post.tags ? post.tags.split(",") : []
+            }))
+        });
+    } catch (e) {
+        console.error(e);
+        return Response.json({error: 'internal error!'}, {status: 500});
+    }
 }
 
 
