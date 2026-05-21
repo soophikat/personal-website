@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node-pre-gyp install --fallback-to-build --directory node_modules/better-sqlite3 && next build",
     "start": "next start",
     "lint": "eslint"
   },
