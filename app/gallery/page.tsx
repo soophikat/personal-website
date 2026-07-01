@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { Suspense } from "react";
 import UnderConstruction from "../ui/UnderConstruction";
 import Masonry from "./ui/Masonry";
