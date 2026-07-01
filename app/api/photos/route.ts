@@ -2,6 +2,8 @@ import db from "@/app/lib/db";
 import { ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
 import { writeFile } from "fs/promises";
 import path from "path";
+import { verifyToken } from "@/app/lib/auth";
+import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
@@ -34,14 +36,21 @@ const insertPhoto = db.transaction((filename: string, caption: string, tags: str
         db.prepare("INSERT INTO photo_tags (photo_id, tag_id) VALUES (? ,?)").run(photoId, tagId);
 
     }
-    return photoId;
+
+    const newPhoto = db.prepare("SELECT * FROM photos WHERE id = ?").get(photoId);
+    return newPhoto;
 })
 
 export async function POST(req: Request) {
+
+    if (! await verifyToken(req)) {
+        return NextResponse.json({ error: 'Unauthorized'}, { status: 401});
+    }
+
     try {
         const formData = await req.formData();
     
-        const file = formData.get("file") as File;
+        const file = formData.get("image") as File;
         const caption = formData.get("caption") as string;
         const tagsRaw = formData.get("tags") as string;
         const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()) : [];
@@ -58,9 +67,9 @@ export async function POST(req: Request) {
     
         await writeFile(path.join(process.cwd(), "public/uploads", filename), buffer);
     
-        insertPhoto(filename, caption, tags);
+        const photo = insertPhoto(filename, caption, tags);
      
-        return Response.json({message: "created!"}, {status: 201})
+        return Response.json({photo: photo, message: "created!"}, {status: 201})
     } catch (e) {
         console.error(e);
         return Response.json({error: "wooops!"}, {status: 500});

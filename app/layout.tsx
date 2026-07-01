@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from 'next-themes'
 import NavBar from "./ui/Navbar";
 import Footer from "./ui/Footer";
+import { toast, Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,13 @@ export default function RootLayout({
         `}
       >
         <ThemeProvider>
+          <Toaster
+            toastOptions={{
+              style: {
+                borderRadius: '0',
+              }
+            }}
+           />
           <div className="grid grid-rows-[max-content_1fr_max-content] h-svh w-svw ">
             <NavBar />
               {children}
