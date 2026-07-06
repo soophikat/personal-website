@@ -1,6 +1,10 @@
 import { Pool } from 'pg';
-import { config } from 'dotenv';
-config({ path: '../../.env' });
+
+
+if (!process.env.DATABASE_URL) {
+    const { config } = require('dotenv'); 
+    config();
+}
 
 console.log(process.env.DATABASE_URL)
 
