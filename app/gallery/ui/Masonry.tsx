@@ -63,7 +63,7 @@ export default function Masonry({ photos }: { photos: Photo[] }) {
                     <div onClick={(e) => e.stopPropagation()} className="flex flex-col gap-1">
                         <img src={`/uploads/${focused.filename}`} className="max-h-[700px] max-w-screen-lg"/>
                         <div className="flex justify-between text-sm">
-                            <div className="flex gap-1">{focused.tags.map((tag) => (
+                            <div className="flex gap-1">{focused.tags && focused.tags.map((tag) => (
                                 <span key={tag} className="bg-neutral-500/50 font-mono px-0.5 text-sm">#{tag}</span>
                             ))}</div>
                             {logged && <button onClick={() => handleDelete()} className="bg-red-500/50 px-1 font-mono hover:cursor-pointer">delete</button>}

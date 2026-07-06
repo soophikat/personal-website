@@ -4,21 +4,21 @@ import { writeFile } from "fs/promises";
 import path from "path";
 import { verifyToken } from "@/app/lib/auth";
 import { NextResponse } from "next/server";
+import pool from "@/app/lib/db";
+import { error } from "next/dist/build/output/log";
 
 export async function GET() {
     try {
-        const photos = db.prepare(`
-            SELECT photos.*, GROUP_CONCAT(tags.name) as  tags from photos
+        const { rows: photos } = await pool.query(`
+            SELECT photos.*, array_agg(tags.name) FILTER (WHERE tags.name IS NOT NULL) as tags from photos
             LEFT JOIN photo_tags ON photos.id = photo_tags.photo_id
             LEFT JOIN tags ON photo_tags.tag_id = tags.id
             GROUP BY photos.id
-            `).all();
-        return Response.json({
-            photos: photos.map((photo: any) => ({
-                ...photo,
-                tags: photo.tags ? photo.tags.split(',') : [],
-            }))
-        }, {status: 200});
+            `)
+
+        console.log(photos);
+        return Response.json({photos}, {status: 200});
+
         
     } catch (error) {
         console.error(error);
@@ -26,20 +26,49 @@ export async function GET() {
     }
 };
 
-const insertPhoto = db.transaction((filename: string, caption: string, tags: string[]) => {
-    const photo = db.prepare("INSERT INTO photos (filename, caption) VALUES (?, ?)").run(filename, caption);
-    const photoId = photo.lastInsertRowid;
+export async function insertPhoto(filename: string, caption: string, tags: string[]) {
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
 
-    for (const tag of tags) {
-        db.prepare("INSERT OR IGNORE INTO tags (name) VALUES (?)").run(tag);
-        const { id: tagId } = db.prepare("SELECT id FROM tags WHERE name = ?").get(tag) as {id: number};
-        db.prepare("INSERT INTO photo_tags (photo_id, tag_id) VALUES (? ,?)").run(photoId, tagId);
+        const { rows: photoRows } = await client.query(
+            "INSERT INTO photos (filename, caption) VALUES ($1, $2) RETURNING id", [filename, caption]
+        );
+        const photoId = photoRows[0].id;
 
+        for (const tag of tags) {
+            await client.query(
+                "INSERT INTO tags (name) VALUES ($1) ON CONFLICT (name) DO NOTHING", 
+                [tag]
+            );
+            const { rows: tagRows } = await client.query(
+                "SELECT id FROM tags WHERE name = $1", 
+                [tag]
+            );
+            const tagId = tagRows[0].id;
+
+            await client.query(
+                "INSERT INTO photo_tags (photo_id, tag_id) VALUES ($1, $2)",
+                [photoId, tagId]
+            )
+        }
+        const { rows: newPhotoRows } = await client.query(
+            'SELECT * FROM photos WHERE id = $1',
+            [photoId]
+        );
+
+        console.log(newPhotoRows);
+
+        await client.query('COMMIT');
+        return newPhotoRows[0];
+
+    } catch (err) {
+        await client.query('ROLLBACK');
+        throw err;
+    } finally {
+        client.release();
     }
-
-    const newPhoto = db.prepare("SELECT * FROM photos WHERE id = ?").get(photoId);
-    return newPhoto;
-})
+}
 
 export async function POST(req: Request) {
 

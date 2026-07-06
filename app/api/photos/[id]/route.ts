@@ -1,5 +1,5 @@
 import { verifyToken } from "@/app/lib/auth";
-import db from "@/app/lib/db";
+import pool from "@/app/lib/db";
 import { unlink } from "fs/promises";
 import { NextResponse } from "next/server";
 import path from "path";
@@ -10,7 +10,11 @@ export async function DELETE(req: Request, { params }: { params: Promise<{id: st
     }
     try {
         const { id } = await params;
-        const photo = db.prepare('SELECT * FROM photos WHERE id = ?').get(id) as { filename: string } || undefined;
+
+        //const photo = db.prepare('SELECT * FROM photos WHERE id = ?').get(id) as { filename: string } || undefined;
+        const { rows: photos } = await pool.query('SELECT * FROM photos WHERE id = $1', [id]);
+        const photo = (photos[0] as {filename: string} | undefined);
+
         if (!photo) {
             return Response.json({message: "dont exist"}, {status: 404});
         }
@@ -19,7 +23,11 @@ export async function DELETE(req: Request, { params }: { params: Promise<{id: st
 
         await unlink(filepath);
         
-        db.prepare('DELETE FROM photos WHERE id = ?').run(id);
+        //db.prepare('DELETE FROM photos WHERE id = ?').run(id);
+
+        await pool.query('DELETE FROM photos WHERE id = $1', [id]);
+
+
         return Response.json({status: 200});
     } catch (e) {
         console.error(e);

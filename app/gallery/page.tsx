@@ -12,7 +12,9 @@ export default async function Page() {
     console.log(photos);
     return (
         <div className="p-4">
-            <Masonry photos={photos} />
+            <div className="">
+                <Masonry photos={photos} />
+            </div>
         </div>
     )
 }
