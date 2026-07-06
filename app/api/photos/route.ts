@@ -22,7 +22,7 @@ export async function GET() {
         
     } catch (error) {
         console.error(error);
-        return Response.json({error: 'internal error!'}, {status: 500});
+        return Response.json({error: 'internal error!', log: error}, {status: 500});
     }
 };
 

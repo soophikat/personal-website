@@ -6,7 +6,7 @@ import UploadButton from "./ui/UploadButton";
 
 
 export default async function Page() {
-    const res = await fetch("http://localhost:3000/api/photos") 
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/photos`) 
     const { photos } = await res.json();
 
     console.log(photos);
