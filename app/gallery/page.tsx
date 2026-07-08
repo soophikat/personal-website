@@ -3,20 +3,26 @@ import { Suspense } from "react";
 import UnderConstruction from "../ui/UnderConstruction";
 import Masonry from "./ui/Masonry";
 import UploadButton from "./ui/UploadButton";
+import { getPhotos } from "../lib/getPhotos";
 
 
 export default async function Page() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/photos`) 
-    const { photos } = await res.json();
+    try {
+        const photos = await getPhotos()
+        console.log(photos);
+        if (!photos) return ;
 
-    console.log(photos);
-    if (!photos) return ;
-
-    return (
-        <div className="p-4">
-            <div className="">
-                <Masonry photos={photos} />
+        return (
+            <div className="p-4">
+                <div className="">
+                    <Masonry photos={photos} />
+                </div>
             </div>
-        </div>
-    )
+        )
+    } catch(err) {
+        console.error(err);
+        return;
+    }
+    
+
 }

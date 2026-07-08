@@ -6,15 +6,11 @@ import { verifyToken } from "@/app/lib/auth";
 import { NextResponse } from "next/server";
 import pool from "@/app/lib/db";
 import { error } from "next/dist/build/output/log";
+import { getPhotos } from "@/app/lib/getPhotos";
 
 export async function GET() {
     try {
-        const { rows: photos } = await pool.query(`
-            SELECT photos.*, array_agg(tags.name) FILTER (WHERE tags.name IS NOT NULL) as tags from photos
-            LEFT JOIN photo_tags ON photos.id = photo_tags.photo_id
-            LEFT JOIN tags ON photo_tags.tag_id = tags.id
-            GROUP BY photos.id
-            `)
+        const photos = getPhotos(); 
 
         console.log(photos);
         return Response.json({photos}, {status: 200});
