@@ -1,20 +1,20 @@
 'use client'
-import { useState } from "react";
+import React, { useState } from "react";
 import { GoUpload } from "react-icons/go";
 import { IoIosClose } from "react-icons/io";
 import { toast, Toaster } from "sonner";
 
 
 
-export default function UploadButton({onSuccessUpload}) {
+export default function UploadButton( /** {onSuccessUpload} **/) {
     const [modalOpen, setModalOpen] = useState(false);
     const [tags, setTags] = useState<string[]>([])
     const handleUpload = () => {
         setModalOpen(true);
     }
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const formData = new FormData(e.target);
+        const formData = new FormData(e.currentTarget);
         formData.append('tags', tags.join(','));
         console.log(formData);
         const res = await fetch('/api/photos', {
@@ -38,14 +38,14 @@ export default function UploadButton({onSuccessUpload}) {
         }
     }
 
-    const handleTags = (e) => {
+    const handleTags = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            const tag = e.target.value;
+            const tag = e.currentTarget.value;
             if (tag === "") { return ;}
             if (tags.includes(tag)) { return ;}
             setTags([...tags, tag])
-            e.target.value = '';
+            e.currentTarget.value = '';
         }
     }
 
@@ -54,7 +54,7 @@ export default function UploadButton({onSuccessUpload}) {
         setTags([])
     }
 
-    const deleteTag = (tag) => {
+    const deleteTag = (tag: string) => {
         setTags(tags.filter(t => t !== tag))
     }
 

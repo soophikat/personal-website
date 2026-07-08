@@ -48,7 +48,7 @@ export default function Masonry({ photos }: { photos: Photo[] }) {
     return (
         <div>
 
-            <UploadButton onSuccessUpload={onSuccessUpload} />
+            <UploadButton  />
             <div style={{ columns: "3 220px", gap: "12px"}}>
                 {photoList.map((photo) => (
                     <div key={photo.id} onClick={() => openModal(photo)} className="break-inside-avoid mb-3">

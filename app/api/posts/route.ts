@@ -1,7 +1,11 @@
-// import db from '@/app/lib/db';
-// import z from 'zod';
+import db from '@/app/lib/db';
+import z from 'zod';
 
-// export async function GET() {
+export async function GET() {
+    return Response.json({ok: true}, {status: 200});
+}
+
+//export async function GET() {
 //     try {
 //         const posts = db.prepare(`
 //             SELECT posts.*, GROUP_CONCAT(tags.name) as tags FROM posts

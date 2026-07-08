@@ -10,6 +10,8 @@ export default async function Page() {
     const { photos } = await res.json();
 
     console.log(photos);
+    if (!photos) return ;
+
     return (
         <div className="p-4">
             <div className="">
