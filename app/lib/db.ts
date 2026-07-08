@@ -1,17 +1,13 @@
 import { Pool } from 'pg';
 
-
 if (!process.env.DATABASE_URL) {
     const { config } = require('dotenv'); 
     config();
 }
 
-console.log(process.env.DATABASE_URL)
-
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
 });
-
 
 export async function initSchema() {
     await pool.query(`
@@ -24,7 +20,8 @@ export async function initSchema() {
 
         CREATE TABLE IF NOT EXISTS photos (
             id          SERIAL PRIMARY KEY,
-            filename    TEXT NOT NULL,
+            image_url   TEXT NOT NULL,
+            key         TEXT NOT NULL,
             caption     TEXT,
             created_at  TIMESTAMP DEFAULT NOW()
         );

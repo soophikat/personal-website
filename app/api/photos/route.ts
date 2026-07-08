@@ -7,6 +7,7 @@ import { NextResponse } from "next/server";
 import pool from "@/app/lib/db";
 import { error } from "next/dist/build/output/log";
 import { getPhotos } from "@/app/lib/getPhotos";
+import { uploadImage } from "@/app/lib/storage";
 
 export async function GET() {
     try {
@@ -22,13 +23,13 @@ export async function GET() {
     }
 };
 
-export async function insertPhoto(filename: string, caption: string, tags: string[]) {
+export async function insertPhoto(key: string, imageURL: string, caption: string, tags: string[]) {
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
 
         const { rows: photoRows } = await client.query(
-            "INSERT INTO photos (filename, caption) VALUES ($1, $2) RETURNING id", [filename, caption]
+            "INSERT INTO photos (key, image_url, caption) VALUES ($1, $2, $3) RETURNING id", [key, imageURL, caption]
         );
         const photoId = photoRows[0].id;
 
@@ -87,12 +88,12 @@ export async function POST(req: Request) {
             return Response.json({error: "invalid format!"}, {status: 400});
         }
     
-        const filename = `${Date.now()}-${file.name}`;
+        const key = `${Date.now()}-${file.name}`;
         const buffer = Buffer.from(await file.arrayBuffer());
     
-        await writeFile(path.join(process.cwd(), "public/uploads", filename), buffer);
+        const imageURL = await uploadImage(buffer, key, file.type)
     
-        const photo = insertPhoto(filename, caption, tags);
+        const photo = insertPhoto(key, imageURL, caption, tags);
      
         return Response.json({photo: photo, message: "created!"}, {status: 201})
     } catch (e) {

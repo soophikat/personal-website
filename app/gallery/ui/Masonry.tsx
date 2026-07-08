@@ -5,7 +5,8 @@ import UploadButton from "./UploadButton";
 
 type Photo = {
     id: string;
-    filename: string;
+    key: string;
+    image_url: string;
     caption: string;
     tags: string[];
 }
@@ -52,7 +53,7 @@ export default function Masonry({ photos }: { photos: Photo[] }) {
             <div style={{ columns: "3 220px", gap: "12px"}}>
                 {photoList.map((photo) => (
                     <div key={photo.id} onClick={() => openModal(photo)} className="break-inside-avoid mb-3">
-                        <img src={`/uploads/${photo.filename}`} className="w-full block"/>
+                        <img src={photo.image_url} className="w-full block"/>
                     </div>
                 ))}
             </div>
@@ -61,7 +62,7 @@ export default function Masonry({ photos }: { photos: Photo[] }) {
                     onClick={() => setFocused(null)} 
                 >
                     <div onClick={(e) => e.stopPropagation()} className="flex flex-col gap-1">
-                        <img src={`/uploads/${focused.filename}`} className="max-h-[700px] max-w-screen-lg"/>
+                        <img src={focused.image_url} className="max-h-[700px] max-w-screen-lg"/>
                         <div className="flex justify-between text-sm">
                             <div className="flex gap-1">{focused.tags && focused.tags.map((tag) => (
                                 <span key={tag} className="bg-neutral-500/50 font-mono px-0.5 text-sm">#{tag}</span>
