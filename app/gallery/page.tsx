@@ -13,10 +13,8 @@ export default async function Page() {
         if (!photos) return ;
 
         return (
-            <div className="p-4">
-                <div className="">
+            <div className="p-4 flex justify-center ">
                     <Masonry photos={photos} />
-                </div>
             </div>
         )
     } catch(err) {

@@ -50,10 +50,10 @@ export default function Masonry({ photos }: { photos: Photo[] }) {
         <div>
 
             <UploadButton  />
-            <div style={{ columns: "3 220px", gap: "12px"}}>
+            <div style={{ columns: "4 280px", gap: "12px"}}>
                 {photoList.map((photo) => (
                     <div key={photo.id} onClick={() => openModal(photo)} className="break-inside-avoid mb-3">
-                        <img src={photo.image_url} className="w-full block"/>
+                        <img src={photo.image_url} className="w-full  block"/>
                     </div>
                 ))}
             </div>
