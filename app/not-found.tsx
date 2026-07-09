@@ -21,6 +21,7 @@ export default function NotFound() {
             />
             <MyLink 
                 href={'/'}
+                target={''}
                 className=""
                 >
                         Go Back to home page

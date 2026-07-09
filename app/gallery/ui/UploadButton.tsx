@@ -6,7 +6,7 @@ import { toast, Toaster } from "sonner";
 
 
 
-export default function UploadButton( /** {onSuccessUpload} **/) {
+export default function UploadButton() {
     const [modalOpen, setModalOpen] = useState(false);
     const [tags, setTags] = useState<string[]>([])
     const handleUpload = () => {
@@ -65,6 +65,7 @@ export default function UploadButton( /** {onSuccessUpload} **/) {
                     <div onClick={(e) => e.stopPropagation()} className="max-w-96 flex flex-col bg-neutral-900 rounded-sm p-4">
                         <button onClick={handleClose} className="bg-red-800 self-end hover:bg-red-600 hover:cursor-pointer" ><IoIosClose /></button>
                         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+                            <input type="file" name="image" />
                             <input type="file" name="image" />
                             <input type="text" name="caption" placeholder="caption" />                           
                             <div className="flex flex-wrap gap-1.5">

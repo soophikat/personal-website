@@ -48,7 +48,7 @@ function SocialLink({href, icon: Icon, name, color, customClass}: {href: string,
     const [isHovered, setIsHovered] = useState(false)
 
     return (
-        <MyLink className={`text-neutral-600 dark:text-neutral-600 group inline-flex gap-0.5 `} href={href}>
+        <MyLink target='_blank' className={`text-neutral-600 dark:text-neutral-600 group inline-flex gap-0.5 `} href={href}>
             <span className="flex items-center">
                 <Icon
                     className={`${customClass} transition-colors duration-300 ease-out inline dark:text-neutral-300 `}
