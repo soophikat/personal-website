@@ -17,7 +17,7 @@ import { ImSoundcloud2 } from "react-icons/im";
 
 const links = [
     { href: "https://www.tumblr.com/sophia-romantica", name: 'Tumblr', icon: FaSquareTumblr, color: "#36465D", customClass: "group-hover:color-tumblr " },
-    { href: "https://github.com/sapphickat", name: 'Github', icon: FaGithub , color: "#FFFFFF", customClass: "dark:group-hover:color-github group-hover:text-black" },
+    { href: "https://github.com/soophikat", name: 'Github', icon: FaGithub , color: "#FFFFFF", customClass: "dark:group-hover:color-github group-hover:text-black" },
     { href: "https://www.instagram.com/soophi.kat/", name: 'Instagram', icon: FaInstagram , color: "#FF0069", customClass: "group-hover:color-instagram" },
     { href: "https://open.spotify.com/user/u008sqwwc8nr9i4gvgn4snjuy", name: 'Spotify', icon: FaSpotify , color: "#1ED760", customClass: "group-hover:color-spotify" },
     { href: "https://soundcloud.com/sxpphickat", name: 'Soundcloud', icon: ImSoundcloud2 , color: "#FF5500", customClass: "rounded-md overflow-hidden group-hover:color-soundcloud" },
