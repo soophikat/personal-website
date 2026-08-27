@@ -10,8 +10,9 @@ const links = [
         href: '/'
     },
     {
-        name: 'Blog',
-        href: '/blog'
+        name: 'Blog ↗',
+        href: 'https://sophia-romantica.tumblr.com/',
+        target: '_blank'
     },
     {
         name: 'Gallery',
@@ -50,7 +51,7 @@ export default function NavBar() {
             {links.map((link) => {
                 return (
                     <Link className={pathname === link.href ? 'dark:text-white text-black underline' : ''}
-                    key={link.name} href={link.href}>{link.name}</Link>
+                    key={link.name} href={link.href} target={link.target}>{link.name}</Link>
                 )
             })}
             </div>
