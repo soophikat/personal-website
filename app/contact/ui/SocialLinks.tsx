@@ -1,5 +1,6 @@
 'use client'
 import MyLink from "@/app/ui/MyLink";
+import { link } from "fs";
 import { useState } from "react";
 import { IconType } from "react-icons";
 import { 
@@ -12,8 +13,10 @@ import {
     FaYoutube,
     FaDiscord,
     FaLinkedin,
+    FaSquareLetterboxd,
 } from "react-icons/fa6";
 import { ImSoundcloud2 } from "react-icons/im";
+import { SiChessdotcom, SiLichess } from "react-icons/si";
 
 const links = [
     { href: "https://www.tumblr.com/sophia-romantica", name: 'Tumblr', icon: FaSquareTumblr, color: "#36465D", customClass: "group-hover:color-tumblr " },
@@ -24,7 +27,29 @@ const links = [
     { href: "https://www.youtube.com/@soophia-studies", name: 'Youtube', icon: FaYoutube , color: "#FF0000", customClass: "group-hover:color-youtube" },
     { href: "https://discord.com/users/318138449259528194", name: 'Discord', icon: FaDiscord , color: "#5865F2", customClass: "group-hover:color-discord" },
     { href: "https://www.linkedin.com/in/sophia-pr/", name: 'Linkedin', icon: FaLinkedin , color: "#0077B5", customClass: "group-hover:color-linkedin" },
+    { href: "https://letterboxd.com/soophikat/", name: 'Letterboxd', icon: FaSquareLetterboxd , color: "#ff8000", customClass: "group-hover:color-letterboxd" },
 ]
+
+const otherLinks = [
+    { href: "https://letterboxd.com/soophikat/", name: 'Letterboxd', icon: FaSquareLetterboxd , color: "#ff8000", customClass: "group-hover:color-letterboxd" },
+    { href: "https://www.chess.com/member/soophikat", name: 'Chess.com', icon: SiChessdotcom , color: "", customClass: "group-hover:color-chessdotcom" },
+    { href: "https://lichess.org/@/soophikat", name: 'Lichess', icon: SiLichess , color: "", customClass: "group-hover:color-lichess" },
+
+]
+
+export function otherSocialLinks() {
+    return (
+        otherLinks.map(link => (
+            <SocialLink 
+                key={link.href}
+                name={link.name}
+                href={link.href}
+                icon={link.icon}
+                color={link.color}
+                customClass={link.customClass}/>
+        ))
+    )
+}
 
 
 export default function socialLinks(name: string) {

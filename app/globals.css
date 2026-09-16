@@ -29,3 +29,15 @@
   color: #0077B5; 
 }
 
+@utility color-letterboxd {
+  color: #ff8000; 
+}
+
+@utility color-chessdotcom {
+  color: #69923e; 
+}
+
+@utility color-lichess {
+  color: #b0771d; 
+}
+
