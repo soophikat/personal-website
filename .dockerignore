@@ -1,0 +1,10 @@
+.git
+.next
+node_modules
+coverage
+out
+build
+.vercel
+.env*
+*.tsbuildinfo
+package-lock.json
