@@ -23,8 +23,8 @@ export default function Page() {
     return (
         <div className="flex flex-col justify-center items-center gap-2">
             <h1 className="text-xl font-bold mb-4">Hello Kat !!</h1>
-            <input id='password-field' type="password" className="rounded-lg bg-neutral-900 focus:outline-none focues:ring-0 px-2 "/>
-            <button onClick={() => login((document.querySelector('#password-field') as HTMLInputElement)?.value)} className="bg-neutral-800 rounded-lg px-2 hover:cursor-pointer hover:bg-neutral-600">login</button>
+            <input id='password-field' type="password" className="rounded-lg bg-neutral-200 dark:bg-neutral-900 focus:outline-none focues:ring-0 px-2 "/>
+            <button onClick={() => login((document.querySelector('#password-field') as HTMLInputElement)?.value)} className="bg-neutral-200 dark:bg-neutral-800 rounded-lg px-2 hover:cursor-pointer hover:bg-neutral-600">login</button>
         </div>
     );
 }
