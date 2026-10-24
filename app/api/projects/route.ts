@@ -1,16 +1,8 @@
 import { verifyToken } from "@/app/lib/auth";
 import pool from "@/app/lib/db";
 import { getProjects } from "@/app/lib/getProjects";
+import { normalizeProjectTags, projectSchema } from "@/app/lib/projectSchema";
 import { NextResponse } from "next/server";
-import z from "zod";
-
-const projectSchema = z.object({
-    title: z.string().trim().min(1).max(150),
-    description: z.string().trim().min(1).max(20000),
-    url: z.union([z.string().trim().url(), z.literal("")]).optional(),
-    status: z.enum(["planned", "in-progress", "completed"]),
-    tags: z.array(z.string().trim().min(1).max(50)).max(20),
-});
 
 export async function GET() {
     try {
@@ -39,7 +31,7 @@ export async function POST(request: Request) {
     }
 
     const { title, description, url, status, tags } = result.data;
-    const uniqueTags = [...new Set(tags.map((tag) => tag.trim()).filter(Boolean))];
+    const uniqueTags = normalizeProjectTags(tags);
     const client = await pool.connect();
 
     try {

@@ -1,6 +1,7 @@
 import { verifyToken } from "@/app/lib/auth";
 import { getProjects, type Project, type ProjectStatus } from "@/app/lib/getProjects";
 import ProjectForm from "./ui/ProjectForm";
+import ProjectActions from "./ui/ProjectActions";
 
 const statusLabels: Record<ProjectStatus, string> = {
     planned: "Planned",
@@ -14,7 +15,7 @@ const statusStyles: Record<ProjectStatus, string> = {
     completed: "border-pink-300 text-pink-700 dark:border-pink-900 dark:text-pink-300",
 };
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project, logged }: { project: Project; logged: boolean }) {
     return (
         <article className="flex flex-col gap-5 border border-neutral-200 p-5 dark:border-neutral-800 sm:p-7">
             <div className="flex flex-wrap items-center justify-between gap-3">
@@ -53,6 +54,7 @@ function ProjectCard({ project }: { project: Project }) {
                     )}
                 </div>
             )}
+            {logged && <ProjectActions project={project} />}
         </article>
     );
 }
@@ -92,7 +94,9 @@ export default async function Page() {
 
                     {projects.length > 0 ? (
                         <div className="grid gap-4">
-                            {projects.map((project) => <ProjectCard key={project.id} project={project} />)}
+                            {projects.map((project) => (
+                                <ProjectCard key={project.id} project={project} logged={logged} />
+                            ))}
                         </div>
                     ) : (
                         <div className="rounded-sm border border-dashed border-neutral-300 bg-white/50 p-6 dark:border-neutral-700 dark:bg-neutral-900/40 sm:p-8">
