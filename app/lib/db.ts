@@ -1,7 +1,7 @@
 import { Pool } from 'pg';
+import { config } from 'dotenv';
 
 if (!process.env.DATABASE_URL) {
-    const { config } = require('dotenv'); 
     config();
 }
 
@@ -30,9 +30,13 @@ export async function initSchema() {
             id          SERIAL PRIMARY KEY,
             title       TEXT NOT NULL,
             description TEXT NOT NULL,
-            url         TEXT NOT NULL,
+            url         TEXT,
+            status      TEXT NOT NULL DEFAULT 'in-progress',
             created_at  TIMESTAMP DEFAULT NOW()
         );
+
+        ALTER TABLE projects ALTER COLUMN url DROP NOT NULL;
+        ALTER TABLE projects ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'in-progress';
 
         CREATE TABLE IF NOT EXISTS tags (
             id      SERIAL PRIMARY KEY,
