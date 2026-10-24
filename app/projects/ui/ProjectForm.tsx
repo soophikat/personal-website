@@ -117,7 +117,7 @@ export default function ProjectForm({ project }: { project?: Project }) {
                             placeholder="What is it about? How did it come together? What did you learn?"
                         />
                         <p className="text-xs text-neutral-500">
-                            Write as much or as little as you like. Line breaks will be preserved.
+                            Markdown is supported, including headings, lists, links, code, and tables.
                         </p>
                     </div>
 
