@@ -2,6 +2,19 @@
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
+:root {
+  --dot-color: rgb(115 115 115 / 22%);
+}
+
+[data-theme="dark"] {
+  --dot-color: rgb(163 163 163 / 18%);
+}
+
+body {
+  background-image: radial-gradient(circle, var(--dot-color) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
 @utility color-github {
   color: #FFFFFF; 
 }
@@ -40,4 +53,3 @@
 @utility color-lichess {
   color: #b0771d; 
 }
-

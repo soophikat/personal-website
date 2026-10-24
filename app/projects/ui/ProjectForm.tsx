@@ -56,7 +56,7 @@ export default function ProjectForm({ project }: { project?: Project }) {
                 onClick={() => setIsOpen((open) => !open)}
                 aria-expanded={isOpen}
                 aria-controls={formId}
-                className="self-start border border-purple-300 px-4 py-2 text-sm font-medium text-purple-700 transition-colors hover:bg-purple-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 dark:border-purple-900 dark:text-purple-300 dark:hover:bg-purple-950/40"
+                className="dark:bg-neutral-950 bg-neutral-50 self-start border border-purple-300 px-4 py-2 text-sm font-medium text-purple-700 transition-colors hover:bg-purple-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 dark:border-purple-900 dark:text-purple-300 dark:hover:bg-purple-950/40"
             >
                 {isOpen ? "Cancel" : project ? "Edit" : "+ Add a project"}
             </button>
