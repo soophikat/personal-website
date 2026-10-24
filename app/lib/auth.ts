@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 
-export async function verifyToken(req: Request): Promise<boolean> {
+export async function verifyToken(): Promise<boolean> {
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;
 

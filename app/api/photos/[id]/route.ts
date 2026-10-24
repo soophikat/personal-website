@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 import path from "path";
 
 export async function DELETE(req: Request, { params }: { params: Promise<{id: string}> } ) {
-    if (!await verifyToken(req)) {
+    if (!await verifyToken()) {
         return NextResponse.json({error: 'Unauthorized!'}, {status: 401});
     }
     try {

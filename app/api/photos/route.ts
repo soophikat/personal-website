@@ -69,7 +69,7 @@ export async function insertPhoto(key: string, imageURL: string, caption: string
 
 export async function POST(req: Request) {
 
-    if (! await verifyToken(req)) {
+    if (! await verifyToken()) {
         return NextResponse.json({ error: 'Unauthorized'}, { status: 401});
     }
 
