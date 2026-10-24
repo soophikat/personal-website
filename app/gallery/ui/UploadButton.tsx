@@ -14,7 +14,7 @@ export default function UploadButton() {
     useEffect(() => {
         if (!modalOpen) return;
 
-        const handleEscape = (event: globalThis.KeyboardEvent) => {
+        const handleEscape = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
                 setModalOpen(false);
                 setTags([]);
@@ -34,10 +34,10 @@ export default function UploadButton() {
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setIsUploading(true);
 
         const formData = new FormData(event.currentTarget);
         formData.set('tags', tags.join(','));
+        setIsUploading(true);
 
         try {
             const response = await fetch('/api/photos', {
