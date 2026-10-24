@@ -13,9 +13,8 @@ type Photo = {
 
 
 
-export default function Masonry({ photos }: { photos: Photo[] }) {
+export default function Masonry({ photos, logged }: { photos: Photo[]; logged: boolean }) {
     const [ focused, setFocused] = useState<Photo | null>(null)
-    const [ logged, setLogged ] = useState(true)
     const [ photoList, setPhotoList ] = useState(photos);
 
     const openModal = (photo: Photo) => {
@@ -49,7 +48,7 @@ export default function Masonry({ photos }: { photos: Photo[] }) {
     return (
         <div>
 
-            <UploadButton  />
+            {logged && <UploadButton />}
             <div className="mx-auto max-w-6xl columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-3">
                 {photoList.map((photo) => (
                     <div key={photo.id} onClick={() => openModal(photo)} className="break-inside-avoid mb-3">
