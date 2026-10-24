@@ -1,7 +1,8 @@
 "use client"
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
 import UploadButton from "./UploadButton";
+import EditPhotoDialog from "./EditPhotoDialog";
 
 type Photo = {
     id: string;
@@ -15,7 +16,21 @@ type Photo = {
 
 export default function Masonry({ photos, logged }: { photos: Photo[]; logged: boolean }) {
     const [ focused, setFocused] = useState<Photo | null>(null)
+    const [ editing, setEditing ] = useState<Photo | null>(null)
     const [ photoList, setPhotoList ] = useState(photos);
+
+    const closeEditDialog = useCallback(() => setEditing(null), []);
+
+    const savePhotoChanges = (caption: string, tags: string[]) => {
+        if (!editing) return;
+
+        const updatedPhoto = { ...editing, caption, tags };
+        setPhotoList((currentPhotos) => currentPhotos.map((photo) => (
+            photo.id === updatedPhoto.id ? updatedPhoto : photo
+        )));
+        setFocused((currentPhoto) => currentPhoto?.id === updatedPhoto.id ? updatedPhoto : currentPhoto);
+        setEditing(null);
+    };
 
     const openModal = (photo: Photo) => {
         setFocused(photo);
@@ -41,10 +56,6 @@ export default function Masonry({ photos, logged }: { photos: Photo[]; logged: b
         }
     }
 
-    const onSuccessUpload = (newPhoto: Photo) => {
-        setPhotoList([...photoList, newPhoto]);
-    }
-    
     return (
         <div>
 
@@ -66,11 +77,35 @@ export default function Masonry({ photos, logged }: { photos: Photo[]; logged: b
                             <div className="flex gap-1">{focused.tags && focused.tags.map((tag) => (
                                 <span key={tag} className="bg-neutral-500/50 font-mono px-0.5 text-sm text-neutral-300">#{tag}</span>
                             ))}</div>
-                            {logged && <button onClick={() => handleDelete()} className="bg-red-500/50 px-1 font-mono hover:cursor-pointer">delete</button>}
+                            {logged && (
+                                <div className="flex gap-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => setEditing(focused)}
+                                        className="bg-blue-500/50 px-1 font-mono hover:cursor-pointer"
+                                    >
+                                        edit
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleDelete()}
+                                        className="bg-red-500/50 px-1 font-mono hover:cursor-pointer"
+                                    >
+                                        delete
+                                    </button>
+                                </div>
+                            )}
                         </div>
                         <p className="  text-sm">{focused.caption}</p>
                     </div>
                 </div>
+            )}
+            {editing && (
+                <EditPhotoDialog
+                    photo={editing}
+                    onClose={closeEditDialog}
+                    onSave={savePhotoChanges}
+                />
             )}
         </div>
     )
