@@ -19,7 +19,7 @@ const statusStyles: Record<ProjectStatus, string> = {
 
 function ProjectCard({ project, logged }: { project: Project; logged: boolean }) {
     return (
-        <article className="flex flex-col gap-5 border border-neutral-200 p-5 dark:border-neutral-800 sm:p-7">
+        <article className="flex flex-col gap-5 border border-neutral-200 p-5 dark:border-neutral-800 sm:p-7 dark:bg-neutral-950 bg-neutral-50">
             <div className="flex flex-wrap items-center justify-between gap-3">
                 <span className={`border px-2.5 py-1 font-mono text-xs ${statusStyles[project.status]}`}>
                     {statusLabels[project.status]}
@@ -102,8 +102,7 @@ export default async function Page() {
                         .
                     </h1>
                     <p className="max-w-2xl text-base leading-7 sm:text-lg">
-                        A home for my projects and the stories behind them: the ideas, the process, what worked,
-                        and what I&apos;m still figuring out.
+                        Some random projects !!!!! O_o
                     </p>
                 </header>
 
@@ -135,36 +134,6 @@ export default async function Page() {
                             </p>
                         </div>
                     )}
-                </section>
-
-                <section aria-labelledby="format-heading" className="flex flex-col gap-5">
-                    <div>
-                        <p className="font-mono text-xs uppercase tracking-[0.16em] text-neutral-500">a loose format</p>
-                        <h2 id="format-heading" className="mt-2 text-2xl font-semibold text-neutral-800 dark:text-white">
-                            More than a list of links
-                        </h2>
-                        <p className="mt-2 max-w-2xl leading-7">
-                            Each project can be a small article, without needing to follow a strict formula.
-                        </p>
-                    </div>
-
-                    <ol className="grid gap-3 sm:grid-cols-3">
-                        <li className="border border-neutral-200 p-5 dark:border-neutral-800">
-                            <span className="font-mono text-xs text-purple-600 dark:text-purple-400">01</span>
-                            <h3 className="mt-4 font-semibold text-neutral-800 dark:text-white">Context</h3>
-                            <p className="mt-2 text-sm leading-6">What it is, why I started, and the idea that caught my attention.</p>
-                        </li>
-                        <li className="border border-neutral-200 p-5 dark:border-neutral-800">
-                            <span className="font-mono text-xs text-purple-600 dark:text-purple-400">02</span>
-                            <h3 className="mt-4 font-semibold text-neutral-800 dark:text-white">Process</h3>
-                            <p className="mt-2 text-sm leading-6">The choices, tools, experiments, and discoveries along the way.</p>
-                        </li>
-                        <li className="border border-neutral-200 p-5 dark:border-neutral-800">
-                            <span className="font-mono text-xs text-purple-600 dark:text-purple-400">03</span>
-                            <h3 className="mt-4 font-semibold text-neutral-800 dark:text-white">What I learned</h3>
-                            <p className="mt-2 text-sm leading-6">What is finished, what I learned, and what I might improve next.</p>
-                        </li>
-                    </ol>
                 </section>
             </div>
         </main>

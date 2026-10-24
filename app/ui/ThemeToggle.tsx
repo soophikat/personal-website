@@ -18,7 +18,7 @@ export default function ThemeToggle() {
 
 
     return (
-        <div className="rounded-full border inline-flex p-0.5  border-neutral-300 dark:border-neutral-800 relative  ">
+        <div className="rounded-full border inline-flex p-0.5  border-neutral-300 dark:border-neutral-800 relative dark:bg-neutral-950 bg-neutral-50 ">
             {([
                 [<LuSun  />, "light"],
                 [<LuMoonStar />, "dark"],
